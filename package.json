@@ -1,0 +1,14 @@
+{
+  "name": "mtf",
+  "version": "1.0.0",
+  "description": "CLI tool to check if lnks are broken for moreThanFAANGM",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kaustubh Natuskar",
+  "license": "MIT",
+  "bin": {
+    "checkLinks": "./checkLinks.js"
+  }
+}
