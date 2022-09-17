@@ -1,38 +1,74 @@
 #!/usr/bin/env node
 console.log('Im working on Links');
-
-import fs from 'fs';
 import got from 'got';
 import jsdom from 'jsdom';
 const { JSDOM } = jsdom;
+import urlExist from "url-exist"
+import isUp from 'is-up';
 const vgmUrl = 'https://kaustubh-natuskar.github.io/moreThanFAANGM/';
 
 
-got(vgmUrl).then(response => {
-  const dom = new JSDOM(response.body);
-  // dom.window.document.querySelectorAll('li').forEach(e => {
-  //   console.log(e);
-  // });
-  let objs = dom.window.document.querySelectorAll('ol li');
+const checkLinks = async () => {
+  try {
+    const response = await got(vgmUrl);
+    const dom = new JSDOM(response.body);
+    let objs = dom.window.document.querySelectorAll('ol li');
+    let notWorkingUrls = [];
 
-  for (let i = 0; i < objs.length; i++) {
-    const e = objs[i];
-    let name = e.querySelector('a').textContent;
-    let link = e.querySelector('a').href;
-    console.log(name);
-    console.log(link);
+    for (let i = 0; i < objs.length; i++) {
+      const e = objs[i];
+      let name = e.querySelector('a').textContent;
+      let link = e.querySelector('a').href;
+      //const exist = await urlExist(link);
 
+      // request(link, function (error, response) {
+      //   if (!error && response.statusCode == 200) {
+      //     console.log(`${name} is workking fine`) // Show the HTML for the Google homepage. 
+      //   }
+      //   else {
+      //     console.log(`${name} is not workking fine ${error}`)
+      //   }
+      // })
+
+      // if (exist == false) {
+      //   console.log(name);
+      //   console.log(link);
+      // }
+      if (await isUp(link)) {
+        console.log(`${name} is Up`);
+      } else {
+        console.log(`${name} is Down`);
+      }
+    }
+  } catch (error) {
+    console.log(error);
   }
-  console.log(objs.length);
-}).catch(err => {
-  console.log(err);
-});
+}
+
+checkLinks()
 
 
 
 
+// got(vgmUrl).then(response => {
+//   const dom = new JSDOM(response.body);
+//   // dom.window.document.querySelectorAll('li').forEach(e => {
+//   //   console.log(e);
+//   // });
+//   let objs = dom.window.document.querySelectorAll('ol li');
+//   let notWorkingUrls = [];
+//   for (let i = 0; i < objs.length; i++) {
+//     const e = objs[i];
+//     let name = e.querySelector('a').textContent;
+//     let link = e.querySelector('a').href;
+//     console.log(name);
+//     console.log(link);
 
-
+//   }
+//   console.log(objs.length);
+// }).catch(err => {
+//   console.log(err);
+// });
 
 // const request = require('request')
 
