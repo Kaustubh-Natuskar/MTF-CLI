@@ -1,24 +1,21 @@
 {
   "name": "mtf",
   "version": "1.0.0",
+  "type": "module",
   "description": "CLI tool to check if lnks are broken for moreThanFAANGM",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "type": "module",
   "author": "Kaustubh Natuskar",
   "license": "MIT",
   "bin": {
     "checkLinks": "./checkLinks.js"
   },
   "dependencies": {
-    "axios": "^0.27.2",
     "express": "^4.18.1",
     "got": "^12.4.1",
-    "is-up": "^5.0.0",
     "jsdom": "^20.0.0",
-    "jsonfromtable": "^3.1.2",
-    "url-exist": "^3.0.1"
+    "validator": "^13.7.0"
   }
 }

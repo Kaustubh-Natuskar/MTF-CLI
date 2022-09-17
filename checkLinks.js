@@ -1,11 +1,18 @@
 #!/usr/bin/env node
 console.log('Im working on Links');
+
 import got from 'got';
 import jsdom from 'jsdom';
+import curl from "./cURL.js";
+
+// const got = require('got');
+// const jsdom = require('jsdom');
+// const curl = require('./curl');
 const { JSDOM } = jsdom;
-import urlExist from "url-exist"
-import isUp from 'is-up';
 const vgmUrl = 'https://kaustubh-natuskar.github.io/moreThanFAANGM/';
+
+
+
 
 
 const checkLinks = async () => {
@@ -19,25 +26,13 @@ const checkLinks = async () => {
       const e = objs[i];
       let name = e.querySelector('a').textContent;
       let link = e.querySelector('a').href;
-      //const exist = await urlExist(link);
-
-      // request(link, function (error, response) {
-      //   if (!error && response.statusCode == 200) {
-      //     console.log(`${name} is workking fine`) // Show the HTML for the Google homepage. 
-      //   }
-      //   else {
-      //     console.log(`${name} is not workking fine ${error}`)
-      //   }
-      // })
-
-      // if (exist == false) {
-      //   console.log(name);
-      //   console.log(link);
-      // }
-      if (await isUp(link)) {
-        console.log(`${name} is Up`);
-      } else {
-        console.log(`${name} is Down`);
+      try {
+        const curlRequest = new curl(link);
+        const statusCode = await curlRequest.getHeaders();
+        console.log(statusCode, name);
+        //console.log(`${name} --> ${statusCode}`);
+      } catch (err) {
+        console.log(err);
       }
     }
   } catch (error) {
@@ -46,6 +41,44 @@ const checkLinks = async () => {
 }
 
 checkLinks()
+// const checkLinks = async () => {
+//   try {
+//     const response = await got(vgmUrl);
+//     const dom = new JSDOM(response.body);
+//     let objs = dom.window.document.querySelectorAll('ol li');
+//     let notWorkingUrls = [];
+
+//     for (let i = 0; i < objs.length; i++) {
+//       const e = objs[i];
+//       let name = e.querySelector('a').textContent;
+//       let link = e.querySelector('a').href;
+//       //const exist = await urlExist(link);
+
+//       // request(link, function (error, response) {
+//       //   if (!error && response.statusCode == 200) {
+//       //     console.log(`${name} is workking fine`) // Show the HTML for the Google homepage. 
+//       //   }
+//       //   else {
+//       //     console.log(`${name} is not workking fine ${error}`)
+//       //   }
+//       // })
+
+//       // if (exist == false) {
+//       //   console.log(name);
+//       //   console.log(link);
+//       // }
+//       if (await isUp(link)) {
+//         console.log(`${name} is Up`);
+//       } else {
+//         console.log(`${name} is Down`);
+//       }
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+
 
 
 
